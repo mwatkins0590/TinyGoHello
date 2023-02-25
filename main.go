@@ -3,28 +3,24 @@ package main
 // This is the most minimal blinky example and should run almost everywhere.
 
 import (
-	"machine"
+	"TinyGoHello/ioUtils"
 	"time"
 )
 
+func init() {
+	ioUtils.SetupSerialOutput(9600)
+}
+
 func main() {
 	runCounter := 0
-	led := machine.LED
-	led.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	machine.Serial.Configure(machine.UARTConfig{
-		BaudRate: 9600,
-	})
+
 	for {
 		runCounter++
-		if runCounter >= 500 {
-			println("runCounter reset triggered")
+		if runCounter >= 10 {
 			runCounter = 0
-			machine.Serial.Write([]byte("test"))
+			ioUtils.Println("Counter reset")
 		}
-		led.Low()
-		time.Sleep(time.Millisecond * 50)
-		machine.Serial.Write([]byte("test2"))
-		led.High()
-		time.Sleep(time.Millisecond * 50)
+		ioUtils.Println("A")
+		time.Sleep(time.Millisecond * 500)
 	}
 }
